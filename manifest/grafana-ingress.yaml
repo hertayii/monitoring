@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-grafana
+  namespace: monitoring
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    external-dns.alpha.kubernetes.io/hostname: "grafana.21c-centos.exchangeweb.net"
+    external-dns.alpha.kubernetes.io/alias: "true"
+spec:
+  defaultBackend:
+    service:
+      name: monitoring-grafana
+      port:
+        number: 80
+  rules:
+  - host: grafana.21c-centos.exchangeweb.net
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/"
+        backend:
+          service:
+            name: monitoring-grafana
+            port:
+              number: 80
